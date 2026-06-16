@@ -1,0 +1,164 @@
+# pyproject.toml - Modern Python packaging configuration
+# HBM4 System Modeling Platform
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hbm4-model"
+version = "1.0.0"
+description = "HBM4 System Modeling Platform for chip design exploration and verification"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+authors = [
+    {name = "HBM System Team", email = "hbm-team@example.com"},
+]
+keywords = [
+    "HBM", "HBM4", "High Bandwidth Memory", "DRAM", "memory controller",
+    "system modeling", "transaction-level modeling", "chip design",
+    "verification", "DFI",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering :: Electronic Design Automation (EDA)",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "License :: OSI Approved :: Apache License 2.0",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "numpy>=1.21.0",
+    "scipy>=1.7.0",
+    "pyyaml>=6.0",
+    "pytest>=7.0.0",
+    "pytest-cov>=3.0.0",
+    "matplotlib>=3.5.0",
+    "plotly>=5.0.0",
+    "python-json-logger>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black>=22.0.0",
+    "pylint>=2.14.0",
+    "mypy>=0.960",
+    "pytest>=7.0.0",
+    "pytest-cov>=3.0.0",
+    "pytest-xdist>=2.5.0",
+    "pytest-timeout>=2.1.0",
+]
+test = [
+    "pytest>=7.0.0",
+    "pytest-cov>=3.0.0",
+    "pytest-xdist>=2.5.0",
+    "pytest-timeout>=2.1.0",
+]
+viz = [
+    "matplotlib>=3.5.0",
+    "plotly>=5.0.0",
+]
+uvm = [
+    # systemverilog-parser - not available on PyPI, install manually if needed
+]
+
+[project.urls]
+Homepage = "https://github.com/example/hbm-system"
+Documentation = "https://github.com/example/hbm-system/docs"
+Source = "https://github.com/example/hbm-system"
+Tracker = "https://github.com/example/hbm-system/issues"
+
+[project.scripts]
+hbm4-sim = "sim.simulator:run_simulation"
+hbm4-simulator = "sim.simulator:run_simulation"
+hbm4-unified-sim = "sim.unified_simulator:run_unified_simulation"
+hbm4-benchmark = "sim.benchmark:main"
+hbm4-unified-bench = "sim.hbm4_unified_simulator:main"
+hbm4-report = "sim.report_generator:generate_html_report"
+
+[tool.setuptools.packages.find]
+where = ["."]
+exclude = [
+    "tests*",
+    "docs*",
+    "verification*",
+    "rtl*",
+    "research*",
+    "model.controller.tests*",
+    "model.dram.tests*",
+    "model.benchmark*",
+    "model.interconnect*",
+    "model.traffic*",
+    "sim.interconnect*",
+    "sim.trace*",
+]
+
+[tool.black]
+line-length = 100
+target-version = ["py38", "py39", "py310", "py311", "py312"]
+include = "\\.pyi?$"
+extend-exclude = """
+/(
+    # directories
+    \\.eggs
+  | \\.git
+  | \\.hg
+  | \\.mypy_cache
+  | \\.pytest_cache
+  | \\.tox
+  | \\.venv
+  | build
+  | dist
+  | tests
+  | verification
+  | rtl
+  | research
+)/
+"""
+
+[tool.pylint.messages_control]
+disable = [
+    "C0111",  # missing-docstring
+    "C0103",  # invalid-name
+    "R0903",  # too-few-public-methods
+    "R0913",  # too-many-arguments
+    "R0914",  # too-many-locals
+]
+max-line-length = 100
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short --strict-markers"
+markers = [
+    "slow: marks tests as slow",
+    "integration: marks tests as integration tests",
+    "controller: marks tests as controller tests",
+    "dram: marks tests as DRAM tests",
+    "hbm4: marks tests as HBM4 specific tests",
+    "benchmark: marks tests as benchmark tests (may be slow)",
+    "regression: marks tests as regression tests",
+    "performance: marks tests as performance tests",
+]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+exclude = [
+    "tests/",
+    "verification/",
+    "rtl/",
+    "research/",
+]

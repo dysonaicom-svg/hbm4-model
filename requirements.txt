@@ -1,0 +1,23 @@
+# HBM System Model Dependencies
+# Core dependencies - required for basic functionality
+
+# Core
+numpy>=1.21.0
+scipy>=1.7.0
+
+# Configuration
+pyyaml>=6.0
+
+# Testing
+pytest>=7.0.0
+pytest-cov>=3.0.0
+
+# Visualization
+matplotlib>=3.5.0
+plotly>=5.0.0
+
+# Logging
+python-json-logger>=2.0.0
+
+# Terminal output (optional - for colored output)
+colorama>=0.4.0

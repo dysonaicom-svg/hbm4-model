@@ -1,0 +1,23 @@
+# MANIFEST.in - Include non-Python files in distribution
+include README.md
+include CHANGELOG.md
+include LICENSE
+include requirements.txt
+include Makefile
+
+# Include YAML configuration files
+recursive-include config *.yaml *.yml *.json
+recursive-include model *.yaml *.yml *.json *.md
+recursive-include sim *.yaml *.yml *.json
+recursive-include examples *.yaml *.yml *.py
+
+# Include documentation
+recursive-include docs *.md
+
+# Exclude test and verification files
+recursive-exclude tests *
+recursive-exclude verification *
+recursive-exclude rtl *
+recursive-exclude research *
+recursive-exclude docs/plans *
+recursive-exclude docs/superpowers *
